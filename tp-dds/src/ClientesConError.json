@@ -1,0 +1,163 @@
+[
+  {
+    "nombre": "Jhon"
+    "apellido": "Torres",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": 91970764,
+    "telefono": 1511454511,
+    "domicilio": "Marte 1929, San Isidro",
+    "fechaDeAlta":"2018-02-12",
+    "categoria":{
+                    "cargoFijo" : 20.1,
+                    "cargoVariable":90.1,
+                    "consumoMaximo" :20.0,
+                    "consumoMinimo":90.1
+                },
+    "dispositivos" :[ {
+    					"nombre" : "Televisor",
+    		            "encendido" : true,
+    				    "potencia" : 80.0
+    				   },
+                       {
+                        "nombre" : "Smart TV",
+                        "encendido" : true,
+                        "potencia" : 35.0
+                       },
+                       {
+                        "nombre" : "Smart Tv 4K",
+                        "encendido" : true,
+                        "potencia" : 40.0
+                       }
+    				
+    			    ]
+  },
+   {
+    "nombre": "Martin",
+    "apellido": "Torres",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": 91970764,
+    "telefono": 1511454511,
+    "domicilio": "Marte 1929, San Isidro",
+    "fechaDeAlta":"2018-02-12",
+     "categoria":{
+                    "cargoFijo" : 20.1,
+                    "cargoVariable":90.1,
+                    "consumoMaximo" :20.0,
+                    "consumoMinimo":90.1
+                },
+    "dispositivos" :[ {
+                        "nombre" : "Heladera",
+                        "encendido" : true,
+                        "potencia" : 21.0
+                      },
+                       {
+                        "nombre" : "Smart TV",
+                        "encendido" : true,
+                        "potencia" : 35.0
+                       },
+                       {
+                        "nombre" : "Smart Tv 4K",
+                        "encendido" : true,
+                        "potencia" : 40.0
+                       }
+                    
+                    ]
+  },
+   {
+    "nombre": "Gabriel",
+    "apellido": "Torres",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": 91970764,
+    "telefono": 1511454511,
+    "domicilio": "Marte 1929, San Isidro",
+    "fechaDeAlta":"2018-02-12",
+     "categoria":{
+                    "cargoFijo" : 20.1,
+                    "cargoVariable":90.1,
+                    "consumoMaximo" :20.0,
+                    "consumoMinimo":90.1
+                },
+    "dispositivos" :[ {
+                        "nombre" : "Notebook",
+                        "encendido" : true,
+                        "potencia" : 21.0
+                       },
+                       {
+                        "nombre" : "Smart TV",
+                        "encendido" : true,
+                        "potencia" : 35.0
+                       },
+                       {
+                        "nombre" : "Smart Tv 4K",
+                        "encendido" : true,
+                        "potencia" : 40.0
+                       }
+                    
+                    ]
+  },
+   {
+    "nombre": "Jorge",
+    "apellido": "Torres",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": 91970764,
+    "telefono": 1511454511,
+    "domicilio": "Marte 1929, San Isidro",
+    "fechaDeAlta":"2018-02-12",
+     "categoria":{
+                    "cargoFijo" : 20.1,
+                    "cargoVariable":90.1,
+                    "consumoMaximo" :20.0,
+                    "consumoMinimo":90.1
+                },
+    "dispositivos" :[ {
+                        "nombre" : "Lavadora",
+                        "encendido" : true,
+                        "potencia" : 21.0
+                       },
+                       {
+                        "nombre" : "Smart TV",
+                        "encendido" : true,
+                        "potencia" : 35.0
+                       },
+                       {
+                        "nombre" : "Smart Tv 4K",
+                        "encendido" : true,
+                        "potencia" : 40.0
+                       }
+                    
+                    ]
+  },
+   {
+    "nombre": "Fede",
+    "apellido": "Torres",
+    "tipoDocumento": "DNI",
+    "numeroDocumento": 91970764,
+    "telefono": 1511454511,
+    "domicilio": "Marte 1929, San Isidro",
+    "fechaDeAlta":"2018-02-12",
+     "categoria":{
+                    "cargoFijo" : 20.1,
+                    "cargoVariable":90.1,
+                    "consumoMaximo" :20.0,
+                    "consumoMinimo":90.1
+                },
+    "dispositivos" :[ {
+                        "nombre" : "Microondas",
+                        "encendido" : true,
+                        "potencia" : 21.0
+                       },
+                       {
+                        "nombre" : "Smart TV",
+                        "encendido" : true,
+                        "potencia" : 35.0
+                       },
+                       {
+                        "nombre" : "Smart Tv 4K",
+                        "encendido" : true,
+                        "potencia" : 40.0
+                       }
+                    
+                    ]
+  }
+
+]

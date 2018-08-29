@@ -1,0 +1,35 @@
+[
+  {
+    "zonaGeografica":[{"lat":37.45,"lon":-1323.08},{"lat":1247.45,"lon":-3723.08},{"lat":3247.45,"lon":-323.08}],
+    "transformadores":[{ "coordenadas": {"lat":37.45,"lon":-123.08},
+                         "clientes":[]
+                      },
+                      { "coordenadas": {"lat":39.45,"lon":-126.08},
+                        "clientes":[]
+                      },
+                      { "coordenadas": {"lat":97.45,"lon":-129.08},
+                        "clientes":[]
+                      }]
+  },
+  {
+    "zonaGeografica":[{"lat":137.45,"lon":-1923.08},{"lat":3247.45,"lon":-3223.08},{"lat":37.45,"lon":-1323.08},{"lat":3247.45,"lon":-3223.08}],
+    "transformadores":[{ "coordenadas": {"lat":67.75,"lon":-126.88},
+                         "clientes":[]
+                      },
+                      { "coordenadas": {"lat":32.49,"lon":-23.08},
+                        "clientes":[]
+                      },
+                      { "coordenadas": {"lat":37.95,"lon":-13.08},
+                        "clientes":[]
+                      }]
+  },
+  {
+    "zonaGeografica":[{"lat":37.45,"lon":-1323.08},{"lat":3247.45,"lon":-3223.08},{"lat":147.45,"lon":-3223.08}],
+    "transformadores":[{ "coordenadas": {"lat":347.45,"lon":-323.08},
+                         "clientes":[]
+                      },
+                      { "coordenadas": {"lat":36.45,"lon":-223.08},
+                        "clientes":[]
+                      }]
+  }
+]
