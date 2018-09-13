@@ -1,5 +1,5 @@
-# 2018-vn-group-02
-Diseño de sistemas - 2018
+
+# Diseño de sistemas - 2018
 
 Trabajo práctico Anual.
 OBJETIVOS DE APRENDIZAJE
@@ -71,7 +71,8 @@ A continuación se describe la forma de evaluación y las condiciones de aprobac
 ● Habrá una entrega final que deberá cumplir con todas las entregas anteriores. Ésta será una presentación grupal donde se deberá explicar la solución e implementación propuesta del trabajo práctico. El equipo docente podrá brindar casos de prueba (documentados anteriormente para que los integrantes del equipo ya los conozcan) que serán necesarios a la hora de la exposición. Existirá, además, la elección de los mejores 2 trabajos prácticos del curso: se hará una votación en la cual cada persona perteneciente al equipo docente tendrá un voto, y por equipo se contará, también, con un voto. La presentación no debe durar más de 20 minutos por equipo, apoyándose en las herramientas que los alumnos consideren necesarias.
 
 
-Contexto general
+# Contexto general
+
 Sistema de gestión energética - SGE
 PROBLEMÁTICA
 El verano es la época del año con la mayor demanda energética y, a su vez, con la mayor tasa de cortes de suministro eléctrico. Ante la crisis energética generada por esta situación, el Gobierno debe recurrir a grandes importaciones de suministro eléctrico provenientes de Uruguay y especialmente de Brasil.
