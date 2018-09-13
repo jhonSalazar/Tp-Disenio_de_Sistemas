@@ -4,6 +4,7 @@ Diseño de sistemas - 2018
 Trabajo práctico Anual.
 OBJETIVOS DE APRENDIZAJE
 Estos objetivos están basados en las competencias del curriculum del ingeniero, y han de ser los siguientes:
+
 ● Ser capaz de seleccionar, especificar y usar los enfoques, técnicas, herramientas y procesos de diseño adecuados al trabajo, sus metas, requerimientos y restricciones.
 ● Ser capaz de evaluar y optimizar el diseño.
 ● Ser capaz de documentar el proyecto y comunicarlo de manera efectiva.
