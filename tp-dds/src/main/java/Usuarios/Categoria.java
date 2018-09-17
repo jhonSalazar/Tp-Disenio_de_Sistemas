@@ -1,13 +1,23 @@
 package Usuarios;
 
+import javax.persistence.Embeddable;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+
+
+@Embeddable
 public class Categoria {
-	
+
 	private double cargoFijo;		
 	private double cargoVariable;
 	private double consumoMaximo;
 	private double consumoMinimo;
+	
+	public Categoria() {}
 	
 	public Categoria (
 			 @JsonProperty("cargoFijo")double _consumoMinimo,

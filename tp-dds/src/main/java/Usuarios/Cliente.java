@@ -4,6 +4,23 @@ import java.util.ArrayList;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
+import javax.persistence.Transient;
+
+import org.hibernate.annotations.Cascade;
+
 import static Valores.ValoresParaPuntaje.*;
 
 import java.time.LocalDate;
@@ -20,26 +37,53 @@ import Dispositivos.DispositivoInteligente;
 import Usuarios.TipoDocumento;
 import Utilitarios.LocalDateDeserializador;
 
-public class Cliente {
 
+@Entity
+public class Cliente {
+	
+	@Id
+	@GeneratedValue
+	private int id;
 	private String nombre;
 	private String apellido;
+	
+	@Enumerated
 	private TipoDocumento tipoDocumento;
+	public Categoria getCategoria() {
+		return categoria;
+	}
+
+	public void setCategoria(Categoria categoria) {
+		this.categoria = categoria;
+	}
+
 	private int numeroDocumento;
 	private int telefono;
 	private String domicilio;
 	private int puntajeCliente = PUNTAJE_INICIAL;
+	
+	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.PERSIST)
+	@JoinColumn(name="cliente_id")
 	private List<Sensor> sensores = new ArrayList<Sensor>();
-
+	
+	@Column
 	@JsonDeserialize(using = LocalDateDeserializador.class)
 	private LocalDate fechaDeAlta;
-
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinColumn(name="cliente_id")
 	private List<DispositivoEstandar> dispositivosEstandar = new ArrayList<DispositivoEstandar>();
+	
+	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinColumn(name="cliente_id")
 	private List<DispositivoInteligente> dispositivosInteligente = new ArrayList<DispositivoInteligente>();
-
+	
+	@Embedded
 	@JsonProperty("categoria")
 	Categoria categoria;
-
+	
+	public Cliente() {}
+	
 	@JsonCreator
 	public Cliente(@JsonProperty("nombre") String _nombre, @JsonProperty("apellido") String _apellido,
 			@JsonProperty("tipoDocumento") TipoDocumento _tipoDocumento,

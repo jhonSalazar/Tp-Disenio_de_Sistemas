@@ -5,31 +5,31 @@ import org.junit.Test;
 import org.uqbarproject.jpa.java8.extras.WithGlobalEntityManager;
 import org.uqbarproject.jpa.java8.extras.test.AbstractPersistenceTest;
 
-import BaseDeDatos.EntityDB;
+import BaseDeDatos.ManagerDataBase;
 import Usuarios.Administrador;
 
 public class ContextTest extends AbstractPersistenceTest implements WithGlobalEntityManager {
 	
-	EntityManager entityManager = EntityDB.getEntityManager();	
+	EntityManager entityManager = ManagerDataBase.getEntityManager();	
 	@Test
 	public void pruebaInsert() {
 		
 		entityManager.getTransaction().begin();
-		Administrador admin = new Administrador("Jhon", "Salazar", "Lugano");
+		Administrador admin = new Administrador("Administrador", "Isnardi Fisico", "Lugano");
 		entityManager.persist(admin);
 		entityManager.getTransaction().commit();
 		entityManager.close();
-		EntityDB.close();		
+		ManagerDataBase.close();		
 		System.out.println("Entity saved.");
 				
 	}
-	
+	/*
 	
 	@Test
 	public void pruebaFind() {
 		
 		entityManager.getTransaction().begin();
-		Administrador admin = entityManager.find(Administrador.class, new Integer(1));
+		Administrador admin = entityManager.find(Administrador.class, new Integer(2));
 		System.out.println("Nombre:"+ admin.getNombre()+", Domicilio:"+ admin.getDomicilio());
 		EntityDB.close();
 				
@@ -56,7 +56,7 @@ public class ContextTest extends AbstractPersistenceTest implements WithGlobalEn
 	}
 	
 	
-	
+	*/
 	/* prueba por default no borrrar por el momento
 	@Test
 	public void contextUp() {

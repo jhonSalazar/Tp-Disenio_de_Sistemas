@@ -1,0 +1,25 @@
+[{
+
+	"coordenadas":{	"longitud":2.0,
+					"latitud": 1.0
+				   }
+},
+{
+
+	"coordenadas":{	"longitud":3.0,
+					"latitud": 8.0
+				   }
+},
+{
+
+	"coordenadas":{	"longitud":7.0,
+					"latitud": 4.0
+				   }
+},
+{
+
+	"coordenadas":{	"longitud":1.0,
+					"latitud": 6.0
+				   }
+}
+]

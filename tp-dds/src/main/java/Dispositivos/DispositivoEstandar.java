@@ -1,10 +1,18 @@
 package Dispositivos;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+@Entity
 public class DispositivoEstandar {
-
+	
+	@Id
+	@GeneratedValue
+	private int id;
 		private String nombre;
 		private int horasEstimadas;
 		double potencia;
@@ -13,6 +21,7 @@ public class DispositivoEstandar {
 		private boolean bajoConsumo;
 		
 		
+		public DispositivoEstandar() {}
 		@JsonCreator
 		public DispositivoEstandar(@JsonProperty("nombre") String _nombre,
 				@JsonProperty("horasEstimadas") int _horasEstimadas, @JsonProperty("potencia") Double _potencia) {

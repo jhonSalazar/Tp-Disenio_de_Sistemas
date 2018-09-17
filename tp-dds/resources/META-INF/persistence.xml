@@ -15,9 +15,7 @@
 
     <persistence-unit name="db" transaction-type="RESOURCE_LOCAL">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-    	
-    	
-    	 
+
         <properties> 
 	    <property name="hibernate.archive.autodetection" value="class"/>        
         
@@ -26,7 +24,7 @@
             <property name="hibernate.connection.username" value="root" /> 
             <property name="hibernate.connection.password" value="1234" />
             
-         	
+
             
             
 			<!--
@@ -42,11 +40,11 @@
             <property name="use_sql_comments" value="true" /> 
             <property name="hibernate.hbm2ddl.auto" value="update" /> 
             
-            
+   
+ 		
         </properties>
           
-          	
-   
+   	
     </persistence-unit> 
   
 </persistence> 

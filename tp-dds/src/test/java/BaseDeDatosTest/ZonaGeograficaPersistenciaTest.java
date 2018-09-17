@@ -1,6 +1,6 @@
-package TestProyecto;
+package BaseDeDatosTest;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -16,13 +16,15 @@ import BaseDeDatos.ManagerDataBase;
 import Dispositivos.DispositivoEstandar;
 import Dispositivos.DispositivoInteligente;
 import Dispositivos.EstadoEncendido;
+import Funcionalidades.Categorizador;
 import Geoposicionamiento.Punto;
 import Geoposicionamiento.Transformador;
 import Geoposicionamiento.ZonaGeografica;
+import Usuarios.Categoria;
 import Usuarios.Cliente;
 import Usuarios.TipoDocumento;
 
-public class ZonaGeograficaTest {
+public class ZonaGeograficaPersistenciaTest {
 	
 	List<Point> puntos;
 	ZonaGeografica zona1;
@@ -33,10 +35,9 @@ public class ZonaGeograficaTest {
 	Boolean encendido = true;
 	Boolean apagado = false;
 	Punto point1, point2, point3;
-	
+	EntityManager entityManager = ManagerDataBase.getEntityManager();
 	@Before
-	public void Before() {
-		
+	public void setUp() throws Exception {
 		DE1 = new DispositivoEstandar("Heladera", 2, 235.00);
 		DE2 = new DispositivoEstandar("Lampara velador", 3, 15.00);
 		DE3 = new DispositivoEstandar("Lampara auxiliar", 2, 20.00);
@@ -59,11 +60,17 @@ public class ZonaGeograficaTest {
 		
 		TipoDocumento tipo = TipoDocumento.DNI;
 		LocalDate fechaDeAlta = LocalDate.of(2018, 2, 1);
-
+		Categoria esperado = Categorizador.getInstance().R3;
 		cliente1 = new Cliente("Gabriel", "Figueroa", tipo, 39501713, 2222, "Azopardo 3636", fechaDeAlta);
 		cliente2 = new Cliente("Martin", "Isnardi", tipo, 33501813, 2222, "Sarandi 3636", fechaDeAlta);
 		cliente3 = new Cliente("Fede", "Perez", tipo, 39501713, 2222, "Azopardo 3636", fechaDeAlta);
 		cliente4 = new Cliente("Jorge", "Gomez", tipo, 33501813, 2222, "Sarandi 3636", fechaDeAlta);
+		
+		cliente1.setCategoria(esperado);
+		cliente2.setCategoria(esperado);
+		cliente3.setCategoria(esperado);
+		cliente4.setCategoria(esperado);
+		
 		
 		cliente1.agregarDispositivoEstandar(DE1);
 		cliente1.agregarDispositivoEstandar(DE2);
@@ -129,15 +136,15 @@ public class ZonaGeograficaTest {
 		zona1.agregarTransformadores(transformador1);
 		zona1.agregarTransformadores(transformador2);
 		
+		entityManager.getTransaction().begin();
+		entityManager.persist(zona1);
+		entityManager.getTransaction().commit();
+		
 	}
-	
+
 	@Test
-	public void testConsumoTotalDeLaZona() {
-		assertEquals(9480.00,zona1.consumoTotalDeLaZona(),1.0);
+	public void test() {
+		//fail("Not yet implemented");
 	}
-	
+
 }
-
-
-
-

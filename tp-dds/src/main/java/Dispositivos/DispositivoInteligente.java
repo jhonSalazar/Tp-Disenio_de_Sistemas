@@ -3,19 +3,32 @@ package Dispositivos;
 import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Transient;
+
 import Usuarios.Cliente;
 
+@Entity
 public class DispositivoInteligente {
+	
+	
+	@Id
+	@GeneratedValue
+	private int id;
+	@Transient
 	private EstadoDispositivoInteligente estado;
 	private double potencia;
 	private String nombre;
+	@Transient
 	private Fabricante fabricante;
 	private String idDispositivo;
 	private double consumoMensualMinimo;	
 	private double consumoMensualMaximo;
 	private boolean bajoConsumo;
 	
-	
+	public DispositivoInteligente() {}
 	public DispositivoInteligente(String nombre, double potencia,double consumoMensualMinimo, double consumoMensualMaximo,boolean bajoConsumo) {
 		this.nombre = nombre; 
 		this.potencia = potencia;

@@ -3,18 +3,54 @@ package Automatizaciones;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.ElementCollection;
+import javax.persistence.Embedded;
+import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
+import javax.persistence.Transient;
+
+@Entity
 public class Regla {
 	
+	@Id
+	@GeneratedValue
+	private int id;
+	
+	@Transient
 	private Sensor sensor;
+	
+	@OneToMany(fetch = FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@JoinColumn(name = "regla_id")
 	private List<Actuador> actuadores = new ArrayList<Actuador>();
-	private Condicion condicion;
-
-	public Regla(Sensor sensor, Condicion _condicion) {
-		
+	
+	@ElementCollection
+	private  List<Condicion> condiciones= new ArrayList<Condicion>(); 
+	
+	public Regla() {}
+	
+	public Regla(Sensor sensor, List<Condicion>  _condicion) {	
 		this.sensor = sensor;
-		this.condicion = _condicion;
+		this.condiciones = _condicion;
 	}
 	
+	public List<Condicion> getCondiciones() {
+		return condiciones;
+	}
+
+	public void setCondiciones(List<Condicion> condiciones) {
+		this.condiciones = condiciones;
+	}
+
+	public void setActuadores(List<Actuador> actuadores) {
+		this.actuadores = actuadores;
+	}
+
 	public Sensor getSensor() {
 		return sensor;
 	}
@@ -23,12 +59,16 @@ public class Regla {
 		this.sensor = sensor;
 	}
 	
-	public List<Actuador> getActuador() {
+	public List<Actuador> getActuadores() {
 		return actuadores;
 	}
 	
-	public void setActuador(Actuador actuador) {
+	public void addActuador(Actuador actuador) {
 		actuadores.add(actuador);
+	}
+	
+	public void addCondicion(Condicion actuador) {
+		condiciones.add(actuador);
 	}
 	
 	public int actualizar() {
@@ -36,12 +76,18 @@ public class Regla {
 	}
 	
 	public boolean evaluar() {
-		return condicion.comparar(this.actualizar());
-		
+		for (Condicion condicion : condiciones) {
+			if(condicion.comparar(this.actualizar())) {
+				return true;
+			}
+			
+		}	
+		return false;
 	}
 	
 	public void ejecutar(){
-		if (this.evaluar()){
+		if (this.evaluar())
+		{
 			actuadores.forEach(actuador -> actuador.ejecutarAccion());
 		}
 	}
