@@ -13,18 +13,25 @@ import Dispositivos.DispositivoInteligente;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public   class Actuador {
+public  class Actuador {
 		
 	@Id 
 	@GeneratedValue(strategy = GenerationType.TABLE)
-	private int id;
+	private Integer id;
 		
 		public  LocalDate getFecha() {
 			return null;};
 		public  DispositivoInteligente getDisp() {
 			return null;};
 		public  boolean ejecutarAccion() {
-			return false;};
-	
+			return false;}
+		
+		public Integer getId() {
+			return id;
+		}
+		
+		public void setId(Integer id) {
+			this.id = id;
+		};
 	
 }

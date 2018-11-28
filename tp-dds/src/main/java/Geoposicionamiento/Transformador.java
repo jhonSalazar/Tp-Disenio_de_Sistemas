@@ -1,5 +1,6 @@
 package Geoposicionamiento;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +12,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 import org.uqbar.geodds.*;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 import Usuarios.Cliente;
 
@@ -36,7 +32,7 @@ public class Transformador {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 //	@JsonFormat(shape = Shape.OBJECT)
 	
 	
@@ -45,7 +41,7 @@ public class Transformador {
 	private Punto coordenadas;
 
 //	@JsonFormat(shape = Shape.OBJECT)
-	@OneToMany(fetch= FetchType.LAZY,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch= FetchType.EAGER,cascade=CascadeType.PERSIST)
 	@JoinColumn(name="transformador_id")
 	private List<Cliente> clientes = new ArrayList<Cliente>();
 	
@@ -56,8 +52,17 @@ public class Transformador {
 		coordenadas = new Punto(latitud,longitud);
 	}
 	
-	public double cantidadEnergiaSuministrada() {
-		return clientes.stream().mapToDouble(unCliente -> unCliente.consumoTotalporHora()).sum();
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
+	public double cantidadEnergiaSuministrada(LocalDateTime periodoInicio, LocalDateTime periodoFin) {
+		return clientes.stream()
+			.mapToDouble(unCliente -> unCliente.consumoTotalPeriodo(periodoInicio, periodoFin)).sum();
 	}
 	
 	public void agregarClientes(Cliente unCliente) {

@@ -15,27 +15,30 @@ import Utilitarios.LocalDateDeserializador;
 
 @Entity
 public class Administrador {
-	
+
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 	private String nombre;
 	private String apellido;
 	private String domicilio;
+	private String username;
+	private String password;
 
 	@JsonDeserialize(using = LocalDateDeserializador.class)
 	private LocalDate fechaDeAlta;
-	
-	public Administrador(String _nombre, String _apellido, String _domicilio) {
-		this.nombre =_nombre;
-		this.apellido=_apellido;
-		this.domicilio = _domicilio;
-	}
 	
 	public Administrador() {
 		
 	}
 	
+	public Administrador(String _nombre, String _apellido, String _domicilio, String _username, String _password) {
+		this.nombre =_nombre;
+		this.apellido=_apellido;
+		this.domicilio = _domicilio;
+		this.username = _username;
+		this.password = _password;
+	}
 	
 	@JsonCreator
 	public Administrador(@JsonProperty("nombre") String _nombre, @JsonProperty("apellido") String _apellido,
@@ -46,7 +49,15 @@ public class Administrador {
 		this.domicilio = _domicilio;
 		this.fechaDeAlta = _fechaDeAlta;
 	}
+	
+	public Integer getId() {
+		return id;
+	}
 
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public long cantidadDeMesesComoAdministrador() {
 		FechaDelSistema fecha = new FechaDelSistema();	
 		return fecha.mesesDeDiferenciaCon(fechaDeAlta);
@@ -72,4 +83,19 @@ public class Administrador {
 		return fechaDeAlta;
 	}
 
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
 }

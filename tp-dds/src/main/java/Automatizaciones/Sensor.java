@@ -1,6 +1,5 @@
 package Automatizaciones;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,15 +10,13 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Transient;
 
 @Entity
 public class Sensor {
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 	
 	//se arregla listado de reglas en Sensor --modificado por Jhon Salazar 09 09 2018
 	
@@ -42,7 +39,14 @@ public class Sensor {
 
 	public Sensor() {}
 	
-	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public int getTemperatura() {	
 		return 31;
 	}

@@ -33,7 +33,7 @@ public class DispositivoEstandarTest {
 	@Test
 	public void testConsumoPorHora() {
 		double esperado = 469.8;
-		assertEquals(esperado,dis.consumoTotal(),1.0);
+		assertEquals(esperado,dis.consumoTotalPorDia(),1.0);
 	}
 	
 	@Test

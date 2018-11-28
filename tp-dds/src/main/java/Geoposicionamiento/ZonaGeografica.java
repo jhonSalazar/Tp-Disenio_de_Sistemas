@@ -1,8 +1,8 @@
 package Geoposicionamiento;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import Geoposicionamiento.Punto;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Embedded;
@@ -12,15 +12,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.Transient;
 
-import org.apache.commons.math3.util.Pair;
 import org.uqbar.geodds.*;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonFormat.Shape;
 
 @Entity
 public class ZonaGeografica {
@@ -28,7 +22,7 @@ public class ZonaGeografica {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 //	@JsonFormat(shape = Shape.OBJECT)
 	//@Transient
 	//private Polygon zonaGeografica;
@@ -49,6 +43,14 @@ public class ZonaGeografica {
 		this.area = new Area(puntos);
 	}
 	
+	
+	
+	public Integer getId() {
+		return id;
+	}
+	public void setId(Integer id) {
+		this.id = id;
+	}
 	public Area getAreaGeografica() {
 		return this.area;
 	}
@@ -66,8 +68,9 @@ public class ZonaGeografica {
 		return transformadores;
 	}
 	
-	public double consumoTotalDeLaZona() {
-		return transformadores.stream().mapToDouble(unTransformador -> unTransformador.cantidadEnergiaSuministrada()).sum();
+	public double consumoTotalDeLaZona(LocalDateTime periodoInicio, LocalDateTime periodoFin) {
+		return transformadores.stream()
+			.mapToDouble(unTransformador -> unTransformador.cantidadEnergiaSuministrada(periodoInicio, periodoFin)).sum();
 	}
 	
 }

@@ -1,0 +1,117 @@
+
+{{#partial "consumosGrafico"}}
+<div class="chart-container">
+       	 <canvas id="ConsumoDispositivo" width="550" height="300"></canvas>
+     	
+ </div>
+<script type="text/javascript">
+    var densityCanvas = document.getElementById("ConsumoDispositivo");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 16;
+var numeros = [];
+var i = 0;
+{{#each dispositivos}}
+ 		 numeros[i]={{consumoMensualMaximo}};
+ 		 i++;
+ {{/each}}
+
+i = 0;
+
+
+
+var densityData = {
+  label: 'Dispositivos',
+  data:  numeros,
+  backgroundColor: [
+    'rgba(0, 99, 132, 0.6)',
+    'rgba(30, 99, 132, 0.6)',
+    'rgba(60, 99, 132, 0.6)',
+    'rgba(90, 99, 132, 0.6)',
+    'rgba(120, 99, 132, 0.6)',
+    'rgba(150, 99, 132, 0.6)',
+    'rgba(180, 99, 132, 0.6)',
+    'rgba(210, 99, 132, 0.6)',
+    'rgba(240, 99, 132, 0.6)'
+  ],
+  borderColor: [
+    'rgba(0, 99, 132, 1)',
+    'rgba(30, 99, 132, 1)',
+    'rgba(60, 99, 132, 1)',
+    'rgba(90, 99, 132, 1)',
+    'rgba(120, 99, 132, 1)',
+    'rgba(150, 99, 132, 1)',
+    'rgba(180, 99, 132, 1)',
+    'rgba(210, 99, 132, 1)',
+    'rgba(240, 99, 132, 1)'
+  ],
+  borderWidth: 2,
+  hoverBorderWidth: 0
+};
+
+var chartOptions = {
+  scales: {
+    yAxes: [{
+      barPercentage: 0.5,
+      gridLines: {
+        display: false
+      }
+    }],
+    xAxes: [{
+      gridLines: {
+        zeroLineColor: "black",
+        zeroLineWidth: 2
+      },
+      ticks: {
+        min: 0,
+        max: 400,
+        stepSize: 50
+      },
+      scaleLabel: {
+        display: true,
+        labelString: "Consumo Mensual maximo KWh"
+      }
+    }]
+  },
+  elements: {
+    rectangle: {
+      borderSkipped: 'left',
+    }
+  }
+};
+
+var nombres = [];
+{{#each dispositivos}}
+ 		nombres[i] = "{{nombre}}";
+ i++;
+ {{/each}}
+
+
+var barChart = new Chart(densityCanvas, {
+  type: 'horizontalBar',
+  data: {
+    labels:nombres ,
+    datasets: [densityData],
+  },
+  options: chartOptions
+});
+
+  </script>
+{{/partial}} 
+
+
+
+
+{{#partial "consumo"}}
+
+
+{{#each calculos}}
+ <input id="consumo" name="consumo" value="{{this}}" type="text" class="" placeholder="respuesta">
+
+
+ 
+{{/each}}
+  <canvas id= "myCanvas" width="500"  height="200">
+{{/partial}}
+
+{{>optimizador.hbs}}

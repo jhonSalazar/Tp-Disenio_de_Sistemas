@@ -1,0 +1,16 @@
+{{#partial "consumoTransformador"}}
+
+{{#each clientesT}}
+<tr> 
+	<td>{{nombre}}</td>
+	<td>{{apellido}}</td>
+	<td>{{domicilio}}</td>
+	<td>{{telefono}}</td>
+	<td>{{fechaDeAlta}}</td>
+	<td>{{consumo}}<td>
+</tr>
+{{/each}}
+
+{{/partial}}
+
+{{>clientesFiltro.hbs}}

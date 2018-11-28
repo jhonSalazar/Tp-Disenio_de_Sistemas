@@ -6,13 +6,9 @@ import java.util.ArrayList;
 import java.util.List;
 import org.junit.Test;
 import Dispositivos.DispositivoInteligente;
-import Funcionalidades.Categorizador;
 import Funcionalidades.Dispositivizador;
-import Usuarios.Categoria;
 import Optimizacion.Optimizador;
 import org.junit.Before;
-import org.apache.commons.math3.optim.linear.LinearConstraint;
-import org.apache.commons.math3.optim.linear.Relationship;
 import org.apache.commons.math3.optim.nonlinear.scalar.GoalType;
 
 

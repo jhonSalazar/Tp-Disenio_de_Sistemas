@@ -1,11 +1,19 @@
 package Dispositivos;
 
-import java.time.LocalDate;
-import java.time.temporal.ChronoUnit;
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToMany;
 import javax.persistence.Transient;
 
 import Usuarios.Cliente;
@@ -16,23 +24,30 @@ public class DispositivoInteligente {
 	
 	@Id
 	@GeneratedValue
-	private int id;
-	@Transient
-	private EstadoDispositivoInteligente estado;
+	private Integer id;
+	
+	@Column(name="estado",nullable=false)
+	@Enumerated(EnumType.STRING)
+	private Estado estado;
+	
 	private double potencia;
 	private String nombre;
 	@Transient
 	private Fabricante fabricante;
-	private String idDispositivo;
 	private double consumoMensualMinimo;	
 	private double consumoMensualMaximo;
 	private boolean bajoConsumo;
 	
+	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
+	@JoinColumn(name="dispositivo_id")
+	private List<ConsumoDispositivosInteligente> consumoDispositivos = new ArrayList<ConsumoDispositivosInteligente>();
+	
 	public DispositivoInteligente() {}
-	public DispositivoInteligente(String nombre, double potencia,double consumoMensualMinimo, double consumoMensualMaximo,boolean bajoConsumo) {
+	public DispositivoInteligente(String nombre, double potencia, Estado estado,
+			double consumoMensualMinimo, double consumoMensualMaximo,boolean bajoConsumo) {
 		this.nombre = nombre; 
 		this.potencia = potencia;
-		this.estado = new EstadoEncendido();
+		this.estado = estado;
 		this.consumoMensualMinimo=consumoMensualMinimo;
 		this.consumoMensualMaximo=consumoMensualMaximo;
 		this.bajoConsumo=bajoConsumo;
@@ -45,16 +60,21 @@ public class DispositivoInteligente {
 		
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+	
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public double getConsumoMensualMinimo(){
 		return consumoMensualMinimo;
 	}
 	
 	public double getConsumoMensualMaximo(){
 		return consumoMensualMaximo;
-	}
-	
-	
-	
+	}	
 	
 	public String getNombre() {
 		return nombre;
@@ -63,23 +83,39 @@ public class DispositivoInteligente {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-
-	public void setIdDispositivo(String idDispositivo) {
-		this.idDispositivo = idDispositivo;
-	}
 	
 	public void setFabricante(Fabricante fabricante) {
 		this.fabricante = fabricante;
 	}
 	
-	public void setEstado(EstadoDispositivoInteligente estado) {
+	public void setEstado(Estado estado) {
 		this.estado = estado;
 	}
 	
-	public String getIdDispositivo() {
-		return idDispositivo;
+	public Estado getEstado() {
+		return estado;
 	}
-		
+	
+	public double getPotencia() {
+		return potencia;
+	}
+	
+	public void setPotencia(double potencia) {
+		this.potencia = potencia;
+	}
+	
+	public boolean isBajoConsumo() {
+		return bajoConsumo;
+	}
+	
+	public List<ConsumoDispositivosInteligente> getConsumoDispositivosInteligente(){
+		return consumoDispositivos;
+	}
+	
+	public void agregarConsumoDispositivosInteligente(ConsumoDispositivosInteligente consumoDispositivo) {
+		consumoDispositivos.add(consumoDispositivo);
+	}
+	
 	public Boolean estaEncendido() {
 		return estado.estaEncendido();
 	}
@@ -92,27 +128,31 @@ public class DispositivoInteligente {
 		return estado.estaEnAhorroEnergia();
 	}
 	
-	public void encender() {
-		estado.encender(this, fabricante);
+	public void encender(LocalDateTime fechaDesde, ConsumoDispositivosInteligente consumo) {
+		estado.encender(this, fabricante, fechaDesde, consumo);
 	}
 	
-	public void apagar() {
-		estado.apagar(this, fabricante);
+	public void apagar(LocalDateTime fechaHasta, ConsumoDispositivosInteligente consumo) {
+		estado.apagar(this, fabricante, fechaHasta, consumo);
 	}
 	
-	public void ahorroEnergia () {
+	public void ahorroEnergia() {
 		estado.ahorroEnergia(this, fabricante);
 	}	
 	public double consumoPorHora() {	
 		return this.potencia;
 	}
 		
-	public double consumoUltimasHoras (int n) {
+	public double consumoUltimasHoras(int n) {
 		return potencia*n;	
 	}
 		
-	public double consumoPeriodo (LocalDate periodoInicio, LocalDate periodoFin) {
-		return potencia*((ChronoUnit.DAYS.between(periodoInicio, periodoFin)));
+	public double consumoPeriodo(LocalDateTime periodoInicio, LocalDateTime periodoFin) {	
+		double valor = consumoDispositivos.stream()
+				.filter(consumo -> (periodoInicio.compareTo(consumo.getFechaDesde())>=0)  
+					&&	(periodoFin.compareTo(consumo.getFechaHasta()) >= 0))
+				.mapToDouble(consumo -> consumo.getConsumo()).sum();		
+		return valor;
 	}
 	
 	public void sumarPuntajeporInteligente(Cliente cliente,int puntaje)

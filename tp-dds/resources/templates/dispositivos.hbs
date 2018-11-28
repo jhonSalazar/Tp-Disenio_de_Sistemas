@@ -1,0 +1,31 @@
+{{#partial "name"}}
+	{{usuario}}
+{{/partial}}
+{{#partial "dispositivos"}}
+
+  {{#each dispositivosEstandar}}
+    <tr> 
+      <td>{{nombre}}</td>
+      <td>-</td>
+      <td>{{potencia}} kWh </td>
+      <td>{{consumoMensualMinimo}} kWh</td>
+      <td>{{consumoMensualMaximo}} kWh</td>
+      <td>{{isTrue bajoConsumo}}</td>
+      <td>{{horasEstimadas}} hs</td>
+    </tr>
+   {{/each}}
+   {{#each dispositivosInteligente}}
+    <tr> 
+      <td>{{nombre}}</td>
+      <td>{{estado}}</td>
+      <td>{{potencia}} kWh </td>
+      <td>{{consumoMensualMinimo}} kWh</td>
+      <td>{{consumoMensualMaximo}} kWh</td>
+      <td>{{isTrue bajoConsumo}}</td>
+      <td>{{horasEstimadas}} hs</td>
+    </tr>
+   {{/each}}
+
+{{/partial}}
+
+{{>estadoHogar.hbs}}

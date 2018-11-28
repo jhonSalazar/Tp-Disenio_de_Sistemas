@@ -2,6 +2,8 @@
 package TestProyecto;
 
 import static org.junit.Assert.assertEquals;
+
+import java.time.LocalDateTime;
 import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
@@ -19,6 +21,7 @@ public class JsonParserTest {
 	static String path_cliente1 = "./src/ClientesConError.json";
 	static String path_cliente = "./src/Clientes.json";
 	
+	LocalDateTime fechaDesde,fechaHasta;
 	DispositivoEstandar disp;
 	byte[] formatoJson ;
 	byte[] formatoJsonConError ;
@@ -27,9 +30,8 @@ public class JsonParserTest {
 	JsonParser json = new JsonParser();
 	FileReader file = new FileReader();
 
-	/* El siguiente Test cumple la funcion de probar el correcto funcionamiento de pasear un archivo  
+	/* El siguiente Test cumple la funcion de probar el correcto funcionamiento de parsear un archivo  
 	 * en formato Json y poder crear los objetos adecuadamente*/
-	
 	
 	//variables pre seteadas
 	@Before
@@ -45,8 +47,6 @@ public class JsonParserTest {
 		clientes = json.fromJsonList(formatoJson,Cliente.class);
 		
 	}
-	
-	
 	
 	@Test
 	/* El sigueinte Test representa la prueba de la cantidad de clientes, 
@@ -75,20 +75,19 @@ public class JsonParserTest {
 
 	}
 	
-	
-	
-	
 	/* El sigueinte Test representa el consumo total de todos los clientes 
 	 * el usuario espera la cantidad dede 539.0 
 	 */
 	
 	@Test
 	public void consumoTotalTest() {
-		double consumoTotalEsperado = 539.0;
+		fechaDesde = LocalDateTime.of(2018,11,01, 12,00);
+		fechaHasta = LocalDateTime.of(2018,11,01, 21,00);
+		double consumoTotalEsperado = 4851.0;
 		double[] cantconsumoTotal = new double[1];
 		clientes.forEach(cliente->{
 									cantconsumoTotal[0] = cantconsumoTotal[0] +
-									cliente.consumoTotalporHora();
+									cliente.consumoTotalPeriodo(fechaDesde, fechaHasta);
 								   });	
 		//System.out.println(cantconsumoTotal[0]);
 		assertEquals(consumoTotalEsperado,cantconsumoTotal[0],0.07);
@@ -111,8 +110,6 @@ public class JsonParserTest {
 		assertEquals(esperado,disps.get(0).getHorasEstimadas());
 	}
 	
-	
-	
 	/* El siguiente Test presenta la prueba delos aitrubos del primer cliente
 	 * el usuario espera los siguientes atributos-valores:
 	 * "nombre": "Jhon",
@@ -125,25 +122,22 @@ public class JsonParserTest {
 	
 	@Test
 	public void atributosDePrimerClienteTest() {
-
-	String nombreEsperado = "Jhon";
-	String apellidoEsperado ="Torres";
-	TipoDocumento  tipoDocumentoEsperado = TipoDocumento.DNI;
-	int numeroDocumentoEsperado =91970764 ;
-	int telefonoEsperado = 1511454511;
-	String domicilioEsperado = "Marte 1929, San Isidro";
-	
-	Cliente jhon = clientes.get(0);
-	
-	assertEquals(nombreEsperado,jhon.getNombre());
-	assertEquals(apellidoEsperado,jhon.getApellido());
-	assertEquals(tipoDocumentoEsperado,jhon.getTipoDocumento());
-	assertEquals(numeroDocumentoEsperado,jhon.getNumeroDocumento());
-	assertEquals(telefonoEsperado,jhon.getTelefono());
-	assertEquals(domicilioEsperado,jhon.getDomicilio());
+		String nombreEsperado = "Jhon";
+		String apellidoEsperado ="Torres";
+		TipoDocumento  tipoDocumentoEsperado = TipoDocumento.DNI;
+		int numeroDocumentoEsperado =91970764 ;
+		int telefonoEsperado = 1511454511;
+		String domicilioEsperado = "Marte 1929, San Isidro";
+		
+		Cliente jhon = clientes.get(0);
+		
+		assertEquals(nombreEsperado,jhon.getNombre());
+		assertEquals(apellidoEsperado,jhon.getApellido());
+		assertEquals(tipoDocumentoEsperado,jhon.getTipoDocumento());
+		assertEquals(numeroDocumentoEsperado,jhon.getNumeroDocumento());
+		assertEquals(telefonoEsperado,jhon.getTelefono());
+		assertEquals(domicilioEsperado,jhon.getDomicilio());
 	}
-	
-
 	
 	@Test 
 	/* El sigueinte Test presenta la prueba del consumo total del Quinto cliente

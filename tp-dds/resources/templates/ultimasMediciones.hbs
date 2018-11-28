@@ -1,0 +1,171 @@
+
+{{#partial "graficoConsumosUltimosPeriodos"}}
+   <div class="col-7">
+        <canvas id="oilChart" width="10" height="5"></canvas>
+    </div>
+ 
+ {{/partial}}
+
+
+{{#partial "tabla"}}
+<div id="myDynamicTable"></div>
+             
+<script>
+function addTable() {
+var encabezado = ["Mes","Consumo KWH","Gasto"];
+var meses =["Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre"];
+var consumos=[];
+var gastos=[];
+var indice =0;	
+
+	{{#each consumosdelMesesKwh}}
+		
+			consumos[indice]={{this}};
+			indice++;		
+	{{/each}}
+	
+	indice = 0;
+	
+	
+	{{#each consumosdelMesesPrecio}}
+		
+		gastos[indice] = {{this}};
+		indice++;
+	{{/each}}
+	
+  var myTableDiv = document.getElementById("myDynamicTable");
+
+  var table = document.createElement('TABLE');
+  table.border = '1';
+	table.setAttribute('class', 'table table-bordered ');
+	
+	var header = table.createTHead();
+    var row = header.insertRow(0);
+    var cell = row.insertCell(0);
+    var cell2 = row.insertCell(1);
+    var cell3 = row.insertCell(2);
+    cell.innerHTML = "Mes";
+    cell2.innerHTML = "Consumo Total Kwh";
+    cell3.innerHTML = "Gasto Total $";
+	
+  var tableBody = document.createElement('TBODY');
+  table.appendChild(tableBody);
+
+  for (var i = 0; i < consumos.length; i++) {
+    var tr = document.createElement('TR');
+    tableBody.appendChild(tr);
+
+    for (var j = 0; j < 3; j++) {
+      var td = document.createElement('TD');
+      td.width = '75';
+      
+      
+      	 if(j==0)
+      {
+      	td.appendChild(document.createTextNode(meses[i]));	
+      }
+      if(j==1)
+      {
+      	td.appendChild(document.createTextNode(consumos[i]));	
+      }
+      if(j==2)
+      {
+      	td.appendChild(document.createTextNode(gastos[i]));	
+      }
+      tr.appendChild(td);
+    }
+  }
+  myTableDiv.appendChild(table);
+}
+addTable();
+</script>
+{{/partial}}
+
+
+
+{{#partial "grafico"}}
+
+    	<div class="chart-container">
+        		
+        		<canvas id="popChart" width="500" height="300"></canvas>
+   		 		 
+   		</div>
+
+
+<script type="text/javascript">
+
+var consumos=[];
+var gastos=[];
+var indice =0;	
+
+	{{#each consumosdelMesesKwh}}
+			
+		consumos[indice]={{this}};
+		indice++;
+	{{/each}}
+	
+	indice = 0;
+	
+	
+	{{#each consumosdelMesesPrecio}}
+		
+		gastos[indice] = {{this}};
+		indice++;
+	{{/each}}
+
+
+var densityCanvas = document.getElementById("popChart");
+
+Chart.defaults.global.defaultFontFamily = "Lato";
+Chart.defaults.global.defaultFontSize = 18;
+
+
+
+var densityData = {
+  label: 'Consumo Kwh',
+  data: consumos,
+  backgroundColor: 'rgba(0, 99, 132, 0.6)',
+  borderWidth: 0,
+  yAxisID: "y-axis-density"
+};
+
+var gravityData = {
+  label: 'Pesos Argentinos $',
+  data: gastos,
+  backgroundColor: 'rgba(99, 132, 0, 0.6)',
+  borderWidth: 0,
+  yAxisID: "y-axis-gravity"
+};
+
+var planetData = {
+  labels: ["Enero", "Febrero", "Marzo", "Abril", "Mayo", "Junio", "Julio", "Agosto"],
+  datasets: [densityData, gravityData]
+};
+
+var chartOptions = {
+  scales: {
+    xAxes: [{
+      barPercentage: 1,
+      categoryPercentage: 0.6
+    }],
+    yAxes: [{
+      id: "y-axis-density"
+    }, {
+      id: "y-axis-gravity"
+    }]
+  }
+};
+
+var barChart = new Chart(densityCanvas, {
+  type: 'bar',
+  data: planetData,
+  options: chartOptions
+});
+
+
+  </script>
+
+
+{{/partial}}
+
+{{>estadoHogar.hbs}}

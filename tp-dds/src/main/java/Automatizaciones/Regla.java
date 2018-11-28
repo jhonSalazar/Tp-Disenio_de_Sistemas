@@ -5,14 +5,12 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.ElementCollection;
-import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
 import javax.persistence.Transient;
 
 @Entity
@@ -20,7 +18,7 @@ public class Regla {
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 	
 	@Transient
 	private Sensor sensor;
@@ -39,6 +37,14 @@ public class Regla {
 		this.condiciones = _condicion;
 	}
 	
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
 	public List<Condicion> getCondiciones() {
 		return condiciones;
 	}

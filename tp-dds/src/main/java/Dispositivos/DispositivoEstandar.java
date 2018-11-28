@@ -12,7 +12,7 @@ public class DispositivoEstandar {
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 		private String nombre;
 		private int horasEstimadas;
 		double potencia;
@@ -38,13 +38,21 @@ public class DispositivoEstandar {
 			this.consumoMensualMinimo=consumoMensualMinimo;
 			this.consumoMensualMaximo=consumoMensualMaximo;
 			this.bajoConsumo=bajoConsumo;
-	}
+	    } 
 		
 		public DispositivoEstandar(String nombre, double potencia) {
 			this.nombre = nombre; 
 			this.potencia = potencia;
-	}
-
+	    }
+		
+		public Integer getId() {
+			return id;
+		}
+		
+		public void setId(Integer id) {
+			this.id = id;
+		}
+		
 		public DispositivoInteligente convertirAInteligente() {
 			return new DispositivoInteligente(nombre, potencia);
 		}
@@ -69,7 +77,19 @@ public class DispositivoEstandar {
 			return horasEstimadas;
 		}
 		
-		public double consumoTotal() {
+		public double getPotencia() {
+			return potencia;
+		}
+		public double getConsumoMensualMinimo() {
+			return consumoMensualMinimo;
+		}
+		public double getConsumoMensualMaximo() {
+			return consumoMensualMaximo;
+		}
+		public boolean isBajoConsumo() {
+			return bajoConsumo;
+		}
+		public double consumoTotalPorDia() {
 			return horasEstimadas * potencia;
 		}
 

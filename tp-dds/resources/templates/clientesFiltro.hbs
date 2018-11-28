@@ -1,0 +1,137 @@
+{{#partial "consumoClientes"}}
+
+<div class="container">
+	<h2>Criterios de Búsqueda de Clientes</h2>
+	<div class="container">
+		<div class="row">
+			<div class="col-md-2">
+				<form onsubmit="return validar()" method="GET" action="/admin/consumos/clientes">
+					<div class="container">
+						<div class="form-group">
+							<select name="nombre" id="nombreC" onchange="deshabilitarTransformadorZona()">
+ 								<option class="dropdown-menu" value="">Seleccione un Cliente</option>
+								{{#each clientes}}
+									<option>{{nombre}}</option>
+								{{/each}}
+							</select>
+							<input id="filtroC" type="submit" value="Filtrar">
+						</div>
+					</div>
+				</form>
+    		</div>
+			<div class="col-md-2"></div>
+			<div class="col-md-2">
+				<form onsubmit="return validar()" method="GET" action="/admin/consumos/transformadores">
+					<div class="container">
+						<div class="form-group">
+							<select name="id" id="idT" onchange="deshabilitarClienteZona()">
+ 								<option class="dropdown-menu" value="">Seleccione un Transformador</option>
+								{{#each transformadores}}
+									<option>{{id}}</option>
+								{{/each}}
+							</select>
+							<input id="filtroT" type="submit" value="Filtrar">
+						</div>
+					</div>
+				</form>
+    		</div>
+    		<div class="col-md-2"></div>
+			<div class="col-md-2">	
+				<form onsubmit="return validar()" method="GET" action="/admin/consumos/zonas">
+					<div class="container">
+						<div class="form-group">
+							<select name="id" id="idZ" onchange="deshabilitarClienteTransformador()">
+ 								<option class="dropdown-menu" value="">Seleccione una Zona</option>
+								{{#each zonas}}
+									<option>{{id}}</option>
+								{{/each}}
+							</select>
+							<input id="filtroZ" type="submit" value="Filtrar">
+						</div>
+					</div>
+				</form>
+    		</div>
+		</div>
+	</div>
+	
+	<div class="container">
+	<table class="table" style="font-size: 15px;">
+		<thead class="thead-dark">
+			<tr>
+				<th scope="col">Nombre</th>
+				<th scope="col">Apellido</th>
+				<th scope="col">Domicilio</th>
+				<th scope="col">Teléfono</th>
+				<th scope="col">Fecha Alta</th>
+				<th scope="col">Consumo Total</th>
+		    </tr>
+		</thead>
+	 	<tbody>
+	 		{{#block "consumoCliente"}}
+			{{/block}}
+	 		
+	 		{{#block "consumoTransformador"}}
+			{{/block}}
+			
+			{{#block "consumoZona"}}
+			{{/block}}
+		</tbody>
+	</table>
+	</div>
+</div>
+
+<script>
+function validar() {
+    var nombreC = document.getElementById('nombreC');
+    var idT = document.getElementById('idT');
+    var idZ = document.getElementById('idZ');
+	var invalidoC = nombreC.value == 0;
+    var invalidoT = idT.value == 0;
+    var invalidoZ = idZ.value == 0;
+ 
+    if (invalidoC && invalidoT && invalidoZ) {
+        alert('Debe seleccionar un Filtro');
+        return false;
+    }
+    else {
+        return true;
+    }
+}
+
+function deshabilitarTransformadorZona() {
+	var nombreC = document.getElementById('nombreC');
+    
+    if (nombreC.value !== 0) {
+        document.getElementById('idT').disabled = true;
+        document.getElementById('filtroT').disabled = true;
+        document.getElementById('idZ').disabled = true;
+        document.getElementById('filtroZ').disabled = true;
+    }
+}
+
+function deshabilitarClienteZona() {
+	var idT = document.getElementById('idT');
+    
+    if (idT.value !== 0) {
+        document.getElementById('nombreC').disabled = true;
+        document.getElementById('filtroC').disabled = true;
+        document.getElementById('idZ').disabled = true;
+        document.getElementById('filtroZ').disabled = true;
+    }
+}
+
+function deshabilitarClienteTransformador() {
+	var idZ = document.getElementById('idZ');
+    
+    if (idZ.value !== 0) {
+        document.getElementById('nombreC').disabled = true;
+        document.getElementById('filtroC').disabled = true;
+        document.getElementById('idT').disabled = true;
+        document.getElementById('filtroT').disabled = true;
+    }
+}
+</script>
+
+{{/partial}}
+
+{{>dashboardAdmin/homeAdmin.hbs}}

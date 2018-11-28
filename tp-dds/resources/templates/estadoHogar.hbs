@@ -1,0 +1,182 @@
+
+{{#partial "estadoHogar"}}
+
+<div class ="row justify-content-md-center">
+<h5>  Filtra por estado de tus dispostivos</h5>
+</div>
+
+
+<div class ="row justify-content-md-center">
+			<div class="dropdown">
+				<select id="navigation" class="btn btn-default dropdown-toggle" style="right: 1px;width: 300px;height: 50px;margin: 10%;">
+					<option class="dropdown-menu" value="" >Estado de Dispositivo</option>
+					<option class="dropdown-menu" style="display:block;font-size: 1.5rem;" value="/cliente/dispositivos/inteligentes/encendido">Encendido</option>
+					<option class="dropdown-menu" style="display:block;font-size: 1.5rem;" value="/cliente/dispositivos/inteligentes/apagado">Apagado</option>
+					<option class="dropdown-menu" style="display:block;font-size: 1.5rem;" value="/cliente/dispositivos/inteligentes/ahorroEnergia">Ahorro de energia</option>					
+				
+				</select>
+				<h5>Listado de dispositivos por estado  </h5>
+			</div>
+
+			
+			<script>
+				$("#navigation").change(function()
+				{
+		    	document.location.href = $(this).val();
+				});
+			</script>
+		
+</div>
+		
+		<div class="container">
+			<table class="table" style="font-size: 15px;">
+				<thead  style="background-color:#e3f2fd">
+	    			<tr>
+						<th scope="col">Nombre</th>
+				    	<th scope="col">Estado</th>
+				    	<th scope="col">Potencia</th>
+			    		<th scope="col">Consumo mensual minimo</th>
+				    	<th scope="col">Consumo mensual maximo</th>
+				    	<th scope="col">Bajo consumo</th>
+						<th scope="col">Horas estimadas</th>
+					</tr>
+  				</thead>
+  				<tbody>
+					{{#block "dispositivos"}}
+					{{/block}}	
+ 				</tbody>
+			</table>
+		</div>
+		
+		
+
+<div class ="row justify-content-md-center">
+<h5>  Visualiza tus ultimas mediciones </h5>
+</div>
+
+<div   class="container" id="reportPage"  style=" margin-bottom: 100px;  background:#ccffff;">
+  <div class="row justify-content-md-center" style= " background:#ccffff;">       
+               <form method="GET" action=/cliente/dispositivos/estadoHogar/ultimasMediciones>
+                 <button type="submit" class="btn btn-light" style="margin: 10px;">Click para actualizar ultimas mediciones</button>          
+               </form> 
+ 	        
+  </div>  
+   	
+   	
+   	 <div class = "row">
+  			  <div class = "col">
+  			  		{{#block "tabla"}}
+		  				{{/block}}
+  				</div>
+  			  	
+  				
+  				<div class = "col-1">
+  				</div>
+       		 	<div class = "col">
+       		 	{{#block "grafico"}}
+
+				{{/block}}
+  			  	</div>
+  			  
+  			  </div>
+   	
+ </div>
+  			
+  			
+  			 
+   
+ 
+
+
+
+
+  
+	<div class ="row justify-content-md-center">
+		<h5>  Visualiza tu consumo de ultimo periodo </h5>
+	</div>
+	
+	   <div class="container" style="background:#ccffcc">
+          <div class="row justify-content-md-center" style= " background:#ccffcc;">
+               <form method="GET" action=/cliente/dispositivos/estadoHogar/ultimoPeriodo> 
+               <button type="submit" class="btn btn-light" style="margin: 10px;">Click para actualizar Ultimo periodo </button>                      
+          		</form>
+           </div>
+         	<div class="container" style="background:#ccffcc">
+				{{#block "graficoUltimoPeriodo"}}
+				{{/block}}
+    		
+    		
+    		
+    		
+    		</div>
+        	
+        	
+        	
+        </div> 
+   		
+   		
+
+
+
+
+
+
+
+
+<div class="container">
+
+<a href="#" id="downloadPdf">Descarga tu Factura</a>
+
+</div>
+
+  
+
+
+  <script type="text/javascript">
+$('#downloadPdf').click(function(event) {
+  // get size of report page
+  var reportPageHeight = $('#reportPage').innerHeight();
+  var reportPageWidth = $('#reportPage').innerWidth();
+  
+  // create a new canvas object that we will populate with all other canvas objects
+  var pdfCanvas = $('<canvas />').attr({
+    id: "canvaspdf",
+    width: reportPageWidth,
+    height: reportPageHeight
+  });
+  
+  // keep track canvas position
+  var pdfctx = $(pdfCanvas)[0].getContext('2d');
+  var pdfctxX = 0;
+  var pdfctxY = 0;
+  var buffer = 100;
+  
+  // for each chart.js chart
+  $("canvas").each(function(index) {
+    // get the chart height/width
+    var canvasHeight = $(this).innerHeight();
+    var canvasWidth = $(this).innerWidth();
+    
+    // draw the chart into the new canvas
+    pdfctx.drawImage($(this)[0], pdfctxX, pdfctxY, canvasWidth, canvasHeight);
+    pdfctxX += canvasWidth + buffer;
+    
+    // our report page is in a grid pattern so replicate that in the new canvas
+    if (index % 2 === 1) {
+      pdfctxX = 0;
+      pdfctxY += canvasHeight + buffer;
+    }
+  });
+  
+  // create new pdf and add our new canvas as an image
+  var pdf = new jsPDF('l', 'pt', [reportPageWidth, reportPageHeight]);
+  pdf.addImage($(pdfCanvas)[0], 'PNG', 0, 0);
+  
+  // download the pdf
+  pdf.save('filename.pdf');
+});
+  </script>
+
+{{/partial}}
+
+{{>cliente.hbs}}

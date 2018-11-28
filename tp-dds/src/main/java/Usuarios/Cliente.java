@@ -8,22 +8,20 @@ import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
 import javax.persistence.Transient;
-
-import org.hibernate.annotations.Cascade;
 
 import static Valores.ValoresParaPuntaje.*;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.temporal.ChronoUnit;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonFormat;
@@ -43,12 +41,19 @@ public class Cliente {
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private Integer id;
 	private String nombre;
 	private String apellido;
 	
-	@Enumerated
+	@Column(unique = true)
+	private String username;
+	
+	private String password;
+
+	@Column(name="tipoDocumento",nullable=false)
+	@Enumerated(EnumType.STRING)
 	private TipoDocumento tipoDocumento;
+	
 	public Categoria getCategoria() {
 		return categoria;
 	}
@@ -60,9 +65,13 @@ public class Cliente {
 	private int numeroDocumento;
 	private int telefono;
 	private String domicilio;
+	
+	@Transient
+	private Double consumo;
+	
 	private int puntajeCliente = PUNTAJE_INICIAL;
 	
-	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.PERSIST)
+	@OneToMany(fetch = FetchType.LAZY,cascade=CascadeType.ALL)
 	@JoinColumn(name="cliente_id")
 	private List<Sensor> sensores = new ArrayList<Sensor>();
 	
@@ -70,11 +79,11 @@ public class Cliente {
 	@JsonDeserialize(using = LocalDateDeserializador.class)
 	private LocalDate fechaDeAlta;
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name="cliente_id")
 	private List<DispositivoEstandar> dispositivosEstandar = new ArrayList<DispositivoEstandar>();
 	
-	@OneToMany(fetch=FetchType.LAZY,cascade = CascadeType.PERSIST)
+	@OneToMany(fetch=FetchType.EAGER,cascade = CascadeType.ALL)
 	@JoinColumn(name="cliente_id")
 	private List<DispositivoInteligente> dispositivosInteligente = new ArrayList<DispositivoInteligente>();
 	
@@ -83,6 +92,19 @@ public class Cliente {
 	Categoria categoria;
 	
 	public Cliente() {}
+	public Cliente(String nombre, String apellido,TipoDocumento tipoDocumento,
+			 int numeroDocumento,int telefono,String username,String password,
+			 String domicilio ,LocalDate fechaDeAlta) {
+		this.nombre = nombre;
+		this.username = username;
+		this.password = password;
+		this.apellido = apellido;
+		this.tipoDocumento = tipoDocumento;
+		this.numeroDocumento = numeroDocumento;
+		this.telefono = telefono;
+		this.domicilio = domicilio;
+		this.fechaDeAlta = fechaDeAlta;
+	}
 	
 	@JsonCreator
 	public Cliente(@JsonProperty("nombre") String _nombre, @JsonProperty("apellido") String _apellido,
@@ -106,8 +128,23 @@ public class Cliente {
 
 		return dispositivosEstandar;
 	}
+	
+	public List<DispositivoEstandar> DispositivosEstandarDelCliente() {
+		return dispositivosEstandar;
+	}
+	
+	public List<DispositivoInteligente> DispositivosInteligenteDelCliente() {
+		return dispositivosInteligente;
+	}
+	
+	public Integer getId() {
+		return id;
+	}
 
-
+	public void setId(Integer id) {
+		this.id = id;
+	}
+	
 	public LocalDate get() {
 		return fechaDeAlta;
 	}
@@ -155,28 +192,46 @@ public class Cliente {
 	public LocalDate getFechaDeAlta() {
 		return fechaDeAlta;
 	}
-
+	
+	public String getUsername() {
+		return username;
+	}
+	
+	public void setUsername(String username) {
+		this.username = username;
+	}
+	
+	public String getPassword() {
+		return password;
+	}
+	
+	public void setPassword(String password) {
+		this.password = password;
+	}
+	
+	public void setConsumo(Double consumo) {
+		this.consumo = consumo;
+	}
+	
+	public Double getConsumo() {
+		return consumo;
+	}
 	
 	public void agregarDispositivoEstandar(DispositivoEstandar dispositivo) {
 		dispositivosEstandar.add(dispositivo);
 	}
-
 	
 	public void quitarDispositivoEstandar(DispositivoEstandar dispositivo) {
 		dispositivosEstandar.remove(dispositivo);
 	}
 	
-	
 	public void agregarDispositivoInteligente(DispositivoInteligente dispositivo) {
 		dispositivosInteligente.add(dispositivo);
 	}
-	
 
 	public void quitarDispositivoInteligente(DispositivoInteligente dispositivo) {
 		dispositivosInteligente.remove(dispositivo);
 	}
-	
-	
 
 	public int cantidadTotalDispositivos() {
 		if (dispositivosEstandar.isEmpty() && dispositivosInteligente.isEmpty()) {
@@ -210,21 +265,40 @@ public class Cliente {
 	public void recategorizar(Categoria _categoria) {
 		this.categoria = _categoria;
 	}
-
-	public double consumoTotalporHora() {
-		return (consumoTotalporHoraEstandar() + consumoTotalporHoraInteligente());	
+	
+	public double consumoTotalPeriodo(LocalDateTime periodoInicio, LocalDateTime periodoFin) {
+		return (consumoTotalDispositivosEstandarPeriodo(periodoInicio, periodoFin)
+				+ consumoTotalDispositivosInteligentePeriodo(periodoInicio, periodoFin));	
 	}
 	
-	public double consumoTotalporHoraEstandar() { 
+	public double consumoTotalDispositivosEstandar() { 
 		return dispositivosEstandar.stream().mapToDouble(disp -> disp.consumoPorHora()).sum();
 	}
 	
-	public double consumoTotalporHoraInteligente() { 
-		return dispositivosInteligente.stream().filter(disp -> disp.estaEncendido()).mapToDouble(disp -> disp.consumoPorHora()).sum();
+	public double consumoTotalDispositivosEstandarPeriodo(LocalDateTime periodoInicio, LocalDateTime periodoFin) {
+		int dias = (int) ChronoUnit.HOURS.between(periodoInicio, periodoFin);
+		return (consumoTotalDispositivosEstandar() * dias);	
 	}
-
-	public double gastoTotal() {
-		double consumoDispositivos = this.consumoTotalporHora();
+	
+	public double consumoTotalDispositivosInteligentePeriodo(LocalDateTime periodoInicio, LocalDateTime periodoFin) { 
+		return dispositivosInteligente.stream()
+				.mapToDouble(disp -> disp.consumoPeriodo(periodoInicio, periodoFin)).sum();
+	}
+	
+	public void promedioConsumoTotalDispositivos() {
+		
+	}
+	
+	public void promedioConsumoTotalDI() {
+		
+	}
+	
+	public void promedioConsumaTotalDE() {
+		
+	}
+	
+	public double gastoTotal(LocalDateTime periodoInicio, LocalDateTime periodoFin) {
+		double consumoDispositivos = this.consumoTotalPeriodo(periodoInicio, periodoFin);
 		return categoria.consumoMensual(consumoDispositivos);
 	}
 

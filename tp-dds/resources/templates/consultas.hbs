@@ -1,0 +1,60 @@
+
+{{#partial "name"}}
+	{{usuario}}
+{{/partial}}
+
+{{#partial "consultas"}}
+
+
+
+<div class="container">
+<form name="miFormulario" onSubmit="return validar()" method="GET" action="/cliente/consultas/porPeriodo" >
+ 
+  <div class="row" style="margin: 30px;">
+    <div class="col">
+      <h3><span class="label label-default" style="font-size: 24px;">Fecha desde</span></h3>
+   	 		<input id = "idDesde" type="date" name="desde" value="Today" style="width: 50%;height: 3rem;"/>
+    </div>
+    <div class="col">
+      <h3><span class="label label-default" >Fecha hasta</span></h3>
+      		<input  id = "idHasta" type="date" name="hasta" value="Today" style="width: 50%;height: 3rem;"/>   	
+    </div>
+  </div>
+  
+  <div class="row" style="margin: 30px;">
+    <div class="col">
+     <button  type="submit" class="btn btn-default btn-lg  ">Consultar periodo</button>
+    </div>
+  
+  <div class="col">  
+      	{{#block "respuesta"}}	
+    	<input type="text"  placeholder="respuesta" style = "padding:10px;">
+   	 	<label for=""  class="">Kwh</label>
+
+   	 	{{/block}}
+  </div>
+  </form>
+</div>
+
+<script>
+function validar() {
+	    var desde = document.forms["miFormulario"]["desde"].value;
+	    var hasta = document.forms["miFormulario"]["hasta"].value;
+	    
+	    if ( (desde == "") || (hasta == "") ) {
+	        alert("Desde de ingresar la fecha desde y fecha hasta");
+	        return false;
+	    }
+	    if(desde > hasta)
+	    {
+	    	alert("La fecha desde no puede ser mayor a la fecha hasta");
+	        return false;
+	    }
+}
+</script>
+{{/partial}}
+
+{{>cliente.hbs}}
+
+
+

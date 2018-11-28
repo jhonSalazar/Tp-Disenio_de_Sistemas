@@ -1,0 +1,22 @@
+{{#partial "dispositivosPorEstado"}}
+
+
+<table class="table" style="font-size: 2rem;">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Nombre</th>
+    </tr>
+  </thead>
+  <tbody>
+  {{#each dispositivos}}
+    <tr> 
+      <td>{{nombre}}</td>
+    </tr>
+  {{/each}}
+  </tbody>
+</table>
+
+
+{{/partial}}
+
+{{>consultas.hbs}}
