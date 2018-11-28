@@ -103,6 +103,9 @@ Los usuarios estarán conectados a un transformador en particular, dependiendo s
 ● Javascript
 ● Handlebars.js
 ● Mysql
+● Hibernate
+● Junit
+● Mockito
 
 
 
