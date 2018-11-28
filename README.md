@@ -95,3 +95,14 @@ La intención de saber los dispositivos con los que cuenta un usuario es para po
 Trabajo práctico anual 2018
 Por otra parte, el sistema deberá mostrar en un mapa interactivo el consumo por zona geográfica. Cada zona geográfica agrupará a uno o más transformadores. El consumo total de una de estas zonas estará determinado por la sumatoria del consumo de cada uno de los transformadores que encierre. El ENRE nos enviará mensualmente un listado con los transformadores activos y a qué zona pertenece cada uno de éstos.
 Los usuarios estarán conectados a un transformador en particular, dependiendo su posición geográfica.
+
+# Tecnologías
+
+● Java + Spark java
+● Hmtl + Css 
+● Javascript
+● Handlebars.js
+● Mysql
+
+
+
